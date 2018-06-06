@@ -40,16 +40,17 @@ export default class App extends Component<Props> {
           {instructions}
         </Text>
       </View>
-  
     );
   }
 
   async componentWillMount() {
-    PilgrimSdk.setLogLevel();
+    PilgrimSdk.setLogLevel(PilgrimSdk.LOG_DEBUG);
     PilgrimSdk.start();
 
     var installId = await PilgrimSdk.getInstallId()
     console.log(installId);
+
+    console.log(await PilgrimSdk.getDebugInfo())
   }
 }
 

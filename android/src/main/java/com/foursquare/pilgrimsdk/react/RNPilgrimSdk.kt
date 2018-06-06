@@ -2,19 +2,14 @@
 package com.foursquare.pilgrimsdk.react
 
 import android.content.Context
-import android.util.Log
 import com.facebook.react.bridge.*
-import com.facebook.react.uimanager.annotations.ReactProp
 import com.foursquare.pilgrim.PilgrimSdk
 import com.foursquare.pilgrim.PilgrimUserInfo
+import com.foursquare.pilgrim.VisitFeedback
 
 class RNPilgrimSdk(reactContext: ReactApplicationContext) : ReactContextBaseJavaModule(reactContext) {
 
-    init {
-        Log.e("RNPilgrimSdk", "In the constructor of the SDK Module")
-    }
-
-    override fun getName() = "RNPilgrimSdk"
+    override fun getName() = REACT_MODULE_NAME
 
     @ReactMethod
     fun start() {
@@ -22,23 +17,61 @@ class RNPilgrimSdk(reactContext: ReactApplicationContext) : ReactContextBaseJava
     }
 
     @ReactMethod
-    fun setUserInfo(data: ReadableMap) {
-//        PilgrimSdk.get().setUserInfo()
+    fun stop() {
+        PilgrimSdk.stop(reactApplicationContext)
     }
 
     @ReactMethod
-    fun setLogLevel() {
-        PilgrimSdk.get().setLogLevel(PilgrimSdk.LogLevel.DEBUG)
+    fun logout() {
+        PilgrimSdk.clear(reactApplicationContext)
+    }
+
+    @ReactMethod
+    fun getDebugInfo(promise: Promise) {
+        promise.resolve(PilgrimSdk.getDebugInfo())
     }
 
     @ReactMethod
     fun getInstallId(promise: Promise) {
-        Log.e("RNPilgrimSdk", "Getting install id ${PilgrimSdk.getPilgrimInstallId()}")
         promise.resolve(PilgrimSdk.getPilgrimInstallId())
     }
 
+    @ReactMethod
+    fun leaveVisitFeedback(pilgrimVisitId: String, feedback: Int, actualVenueId: String?) {
+        PilgrimSdk.leaveVisitFeedback(pilgrimVisitId, VisitFeedback.values()[feedback], actualVenueId)
+    }
+
+    @ReactMethod
+    fun setUserInfo(data: ReadableMap) {
+    }
+
+    @ReactMethod
+    fun setOauthToken(token: String?) {
+        PilgrimSdk.get().setOauthToken(token)
+    }
+
+    @ReactMethod
+    fun setLogLevel(level: Int) {
+        PilgrimSdk.get().setLogLevel(PilgrimSdk.LogLevel.values()[level])
+    }
+
+    override fun getConstants(): MutableMap<String, Any> {
+        return mutableMapOf(
+            "VISIT_FEEDBACK_CONFIRM" to VisitFeedback.CONFIRM.ordinal,
+            "VISIT_FEEDBACK_DENY" to VisitFeedback.DENY.ordinal,
+            "VISIT_FEEDBACK_WRONG_VENUE" to VisitFeedback.WRONG_VENUE.ordinal,
+            "VISIT_FEEDBACK_FALSE_STOP" to VisitFeedback.FALSE_STOP.ordinal,
+            "LOG_DEBUG" to PilgrimSdk.LogLevel.DEBUG.ordinal,
+            "LOG_INFO" to PilgrimSdk.LogLevel.INFO.ordinal,
+            "LOG_ERROR" to PilgrimSdk.LogLevel.ERROR.ordinal
+        )
+    }
+
+    override fun hasConstants() = true
+
     companion object {
-        @ReactMethod
+        const val REACT_MODULE_NAME = "RNPilgrimSdk"
+
         @JvmStatic
         fun initalize(
                 reactContext: Context,
