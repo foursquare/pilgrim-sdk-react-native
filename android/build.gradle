@@ -1,0 +1,30 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+
+android {
+  compileSdkVersion 26
+  publishNonDefault true
+
+  defaultConfig {
+    minSdkVersion 16
+    targetSdkVersion 26
+  }
+
+  lintOptions {
+    disable 'InvalidPackage'
+  }
+
+  compileOptions {
+    sourceCompatibility JavaVersion.VERSION_1_7
+    targetCompatibility JavaVersion.VERSION_1_7
+  }
+}
+
+dependencies {
+  compileOnly "com.facebook.react:react-native:+"
+  implementation 'com.foursquare:pilgrimsdk:1.2.32'
+  implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+}
+repositories {
+  mavenCentral()
+}
