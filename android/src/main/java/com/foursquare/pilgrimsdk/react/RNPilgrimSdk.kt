@@ -3,9 +3,7 @@ package com.foursquare.pilgrimsdk.react
 
 import android.content.Context
 import com.facebook.react.bridge.*
-import com.foursquare.pilgrim.PilgrimSdk
-import com.foursquare.pilgrim.PilgrimUserInfo
-import com.foursquare.pilgrim.VisitFeedback
+import com.foursquare.pilgrim.*
 
 class RNPilgrimSdk(reactContext: ReactApplicationContext) : ReactContextBaseJavaModule(reactContext) {
 
@@ -81,6 +79,11 @@ class RNPilgrimSdk(reactContext: ReactApplicationContext) : ReactContextBaseJava
             PilgrimSdk.with(
                     PilgrimSdk.Builder(reactContext)
                             .consumer(key, secret)
+                            .notificationHandler(object : PilgrimNotificationHandler() {
+                                override fun handlePlaceNotification(p0: Context, p1: PilgrimSdkPlaceNotification) {
+
+                                }
+                            })
             )
         }
     }

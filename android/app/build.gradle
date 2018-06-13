@@ -73,20 +73,10 @@ import com.android.build.OutputFile
  */
 
 project.ext.react = [
-  // the name of the generated asset file containing your JS bundle
-  bundleAssetName: "example.bundle",
-
-  // the entry file for bundle generation
-  entryFile: "example/index.js",
-
-  // the root of your project, i.e. where "package.json" lives
-  root: "../../../",
-
-  // supply additional arguments to the packager
-  extraPackagerArgs: []
+    entryFile: "index.js"
 ]
 
-apply from: "../../../node_modules/react-native/react.gradle"
+apply from: "../../node_modules/react-native/react.gradle"
 
 /**
  * Set this to true to create two separate APKs instead of one:
@@ -104,12 +94,13 @@ def enableSeparateBuildPerCPUArchitecture = false
 def enableProguardInReleaseBuilds = false
 
 android {
-    compileSdkVersion 27
+    compileSdkVersion 23
+    buildToolsVersion "23.0.1"
 
     defaultConfig {
-        applicationId "com.example"
+        applicationId "com.pilgrim-sdk-react-native"
         minSdkVersion 16
-        targetSdkVersion 27
+        targetSdkVersion 22
         versionCode 1
         versionName "1.0"
         ndk {
@@ -147,9 +138,8 @@ android {
 
 dependencies {
     compile fileTree(dir: "libs", include: ["*.jar"])
-    compile "com.android.support:appcompat-v7:27.1.0"
+    compile "com.android.support:appcompat-v7:23.0.1"
     compile "com.facebook.react:react-native:+"  // From node_modules
-    compile project(":pilgrim-sdk-react-native")
 }
 
 // Run this once to be able to run the application with BUCK

@@ -1,4 +1,4 @@
-package com.example;
+package com.pilgrim-sdk-react-native;
 
 import android.app.Application;
 
@@ -7,8 +7,6 @@ import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
 import com.facebook.soloader.SoLoader;
-import com.foursquare.pilgrimsdk.react.RNPilgrimSdk;
-import com.foursquare.pilgrimsdk.react.RNPilgrimSdkPackage;
 
 import java.util.Arrays;
 import java.util.List;
@@ -23,15 +21,14 @@ public class MainApplication extends Application implements ReactApplication {
 
     @Override
     protected List<ReactPackage> getPackages() {
-      return Arrays.asList(
-          new RNPilgrimSdkPackage(),
+      return Arrays.<ReactPackage>asList(
           new MainReactPackage()
       );
     }
 
     @Override
     protected String getJSMainModuleName() {
-      return "example/index";
+      return "index";
     }
   };
 
@@ -44,8 +41,5 @@ public class MainApplication extends Application implements ReactApplication {
   public void onCreate() {
     super.onCreate();
     SoLoader.init(this, /* native exopackage */ false);
-
-    // PilgrimSdk.with(new PilgrimSdk.Builder());
-    RNPilgrimSdk.initalize(this, "", "");
   }
 }

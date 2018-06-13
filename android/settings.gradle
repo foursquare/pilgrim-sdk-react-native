@@ -1,0 +1,3 @@
+rootProject.name = 'pilgrim-sdk-react-native'
+
+include ':app'
