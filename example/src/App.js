@@ -5,10 +5,9 @@
  */
 
 import React, { Component } from 'react';
-import PilgrimSdk from 'pilgrim-sdk-react-native';
-
+// import PilgrimSdk from 'pilgrim-sdk-react-native';
 import { NativeModules, NativeEventEmitter, DeviceEventEmitter } from 'react-native'
-
+var PilgrimSdk = NativeModules.PilgrimSdk;
 
 import {
   Platform,
@@ -44,13 +43,13 @@ export default class App extends Component<Props> {
   }
 
   async componentWillMount() {
-    PilgrimSdk.setLogLevel(PilgrimSdk.LOG_DEBUG);
+    // PilgrimSdk.setLogLevel(PilgrimSdk.LOG_DEBUG);
     PilgrimSdk.start();
 
     var installId = await PilgrimSdk.getInstallId()
     console.log(installId);
 
-    console.log(await PilgrimSdk.getDebugInfo())
+    // console.log(await PilgrimSdk.getDebugInfo())
   }
 }
 
