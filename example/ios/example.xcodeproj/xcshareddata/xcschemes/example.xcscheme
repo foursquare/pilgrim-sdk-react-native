@@ -29,9 +29,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-               BuildableName = "pilgrim-sdk-react-native.app"
-               BlueprintName = "pilgrim-sdk-react-native"
-               ReferencedContainer = "container:pilgrim-sdk-react-native.xcodeproj">
+               BuildableName = "example.app"
+               BlueprintName = "example"
+               ReferencedContainer = "container:example.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -45,7 +45,7 @@
                BlueprintIdentifier = "00E356ED1AD99517003FC87E"
                BuildableName = "pilgrim-sdk-react-nativeTests.xctest"
                BlueprintName = "pilgrim-sdk-react-nativeTests"
-               ReferencedContainer = "container:pilgrim-sdk-react-native.xcodeproj">
+               ReferencedContainer = "container:example.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -61,9 +61,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "pilgrim-sdk-react-native.app"
-            BlueprintName = "pilgrim-sdk-react-native"
-            ReferencedContainer = "container:pilgrim-sdk-react-native.xcodeproj">
+            BuildableName = "example.app"
+            BlueprintName = "example"
+            ReferencedContainer = "container:example.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -84,9 +84,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "pilgrim-sdk-react-native.app"
-            BlueprintName = "pilgrim-sdk-react-native"
-            ReferencedContainer = "container:pilgrim-sdk-react-native.xcodeproj">
+            BuildableName = "example.app"
+            BlueprintName = "example"
+            ReferencedContainer = "container:example.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
@@ -103,9 +103,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "pilgrim-sdk-react-native.app"
-            BlueprintName = "pilgrim-sdk-react-native"
-            ReferencedContainer = "container:pilgrim-sdk-react-native.xcodeproj">
+            BuildableName = "example.app"
+            BlueprintName = "example"
+            ReferencedContainer = "container:example.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>
