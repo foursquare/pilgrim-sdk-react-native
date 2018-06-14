@@ -10,7 +10,7 @@
 
 @implementation RNPilgrimModule
 
-RCT_EXPORT_MODULE(PilgrimSdk);
+RCT_EXPORT_MODULE(RNPilgrimSdk);
 
 RCT_EXPORT_METHOD(start) {
   

@@ -5,9 +5,8 @@
  */
 
 import React, { Component } from 'react';
-// import PilgrimSdk from 'pilgrim-sdk-react-native';
+import PilgrimSdk from 'pilgrim-sdk-react-native';
 import { NativeModules, NativeEventEmitter, DeviceEventEmitter } from 'react-native'
-var PilgrimSdk = NativeModules.PilgrimSdk;
 
 import {
   Platform,
