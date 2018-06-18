@@ -21,6 +21,11 @@
         </intent-filter>
       </activity>
       <activity android:name="com.facebook.react.devsupport.DevSettingsActivity" />
+        <receiver android:name="com.example.TestBroadcastReceiver">
+            <intent-filter>
+                <action android:name="com.example.receiver.TEST" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

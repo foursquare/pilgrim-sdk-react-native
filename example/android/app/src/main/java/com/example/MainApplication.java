@@ -47,5 +47,6 @@ public class MainApplication extends Application implements ReactApplication {
 
     // PilgrimSdk.with(new PilgrimSdk.Builder());
     RNPilgrimSdk.initalize(this, "", "");
+
   }
 }

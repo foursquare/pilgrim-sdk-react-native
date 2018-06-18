@@ -2,10 +2,15 @@
 package com.foursquare.pilgrimsdk.react
 
 import android.content.Context
+import android.util.Log
 import com.facebook.react.bridge.*
 import com.foursquare.pilgrim.*
 
 class RNPilgrimSdk(reactContext: ReactApplicationContext) : ReactContextBaseJavaModule(reactContext) {
+
+    init {
+        Log.e("RNPilgrimSdk", "Initializing the pilgrim sdk module");
+    }
 
     override fun getName() = REACT_MODULE_NAME
 
@@ -67,6 +72,21 @@ class RNPilgrimSdk(reactContext: ReactApplicationContext) : ReactContextBaseJava
 
     override fun hasConstants() = true
 
+
+    private val notificationHandler: PilgrimNotificationHandler = object : PilgrimNotificationHandler() {
+        override fun handlePlaceNotification(context: Context, notification: PilgrimSdkPlaceNotification) {
+
+        }
+
+        override fun handleNearbyNotification(context: Context, notification: PilgrimSdkNearbyNotification) {
+
+        }
+
+        override fun handleBackfillNotification(context: Context, notification: PilgrimSdkBackfillNotification) {
+
+        }
+    }
+
     companion object {
         const val REACT_MODULE_NAME = "RNPilgrimSdk"
 
@@ -76,6 +96,7 @@ class RNPilgrimSdk(reactContext: ReactApplicationContext) : ReactContextBaseJava
                 key: String,
                 secret: String
         ) {
+            Log.e("RNPilgrimSdk", "Initializing the sdk in application onCreate")
             PilgrimSdk.with(
                     PilgrimSdk.Builder(reactContext)
                             .consumer(key, secret)

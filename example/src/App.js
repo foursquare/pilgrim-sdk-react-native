@@ -43,6 +43,7 @@ export default class App extends Component<Props> {
 
   async componentWillMount() {
     // PilgrimSdk.setLogLevel(PilgrimSdk.LOG_DEBUG);
+    this.listener = DeviceEventEmitter.addListener('TestEvent', e => console.log("Test event received: " + e));
     PilgrimSdk.start();
 
     var installId = await PilgrimSdk.getInstallId()
