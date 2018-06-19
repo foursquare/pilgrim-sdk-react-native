@@ -1,18 +1,35 @@
 @file:JvmName("RNPilgrimSdk")
+
 package com.foursquare.pilgrimsdk.react
 
+import android.Manifest
 import android.content.Context
-import android.util.Log
-import com.facebook.react.bridge.*
-import com.foursquare.pilgrim.*
+import android.support.v4.app.ActivityCompat
+import com.facebook.react.ReactActivity
+import com.facebook.react.bridge.Promise
+import com.facebook.react.bridge.ReactApplicationContext
+import com.facebook.react.bridge.ReactContextBaseJavaModule
+import com.facebook.react.bridge.ReactMethod
+import com.facebook.react.modules.core.DeviceEventManagerModule
+import com.facebook.react.modules.core.PermissionListener
+import com.foursquare.pilgrim.PilgrimNotificationHandler
+import com.foursquare.pilgrim.PilgrimSdk
+import com.foursquare.pilgrim.PilgrimSdkPlaceNotification
 
 class RNPilgrimSdk(reactContext: ReactApplicationContext) : ReactContextBaseJavaModule(reactContext) {
 
-    init {
-        Log.e("RNPilgrimSdk", "Initializing the pilgrim sdk module");
-    }
-
     override fun getName() = REACT_MODULE_NAME
+
+    @ReactMethod
+    fun requestAuthorization() {
+        if (currentActivity != null && currentActivity is ReactActivity) {
+            (currentActivity as ReactActivity).requestPermissions(Array(1){Manifest.permission.ACCESS_FINE_LOCATION}, 0, { requestCode, permissions, grantResults ->
+                // TODO check if actually granted
+                reactApplicationContext.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter::class.java).emit("AuthorizedEvent", null)
+                true
+            })
+        }
+    }
 
     @ReactMethod
     fun start() {
@@ -25,67 +42,17 @@ class RNPilgrimSdk(reactContext: ReactApplicationContext) : ReactContextBaseJava
     }
 
     @ReactMethod
-    fun logout() {
-        PilgrimSdk.clear(reactApplicationContext)
-    }
-
-    @ReactMethod
-    fun getDebugInfo(promise: Promise) {
-        promise.resolve(PilgrimSdk.getDebugInfo())
-    }
-
-    @ReactMethod
     fun getInstallId(promise: Promise) {
         promise.resolve(PilgrimSdk.getPilgrimInstallId())
     }
 
-    @ReactMethod
-    fun leaveVisitFeedback(pilgrimVisitId: String, feedback: Int, actualVenueId: String?) {
-        PilgrimSdk.leaveVisitFeedback(pilgrimVisitId, VisitFeedback.values()[feedback], actualVenueId)
-    }
-
-    @ReactMethod
-    fun setUserInfo(data: ReadableMap) {
-    }
-
-    @ReactMethod
-    fun setOauthToken(token: String?) {
-        PilgrimSdk.get().setOauthToken(token)
-    }
-
-    @ReactMethod
-    fun setLogLevel(level: Int) {
-        PilgrimSdk.get().setLogLevel(PilgrimSdk.LogLevel.values()[level])
-    }
-
     override fun getConstants(): MutableMap<String, Any> {
         return mutableMapOf(
-            "VISIT_FEEDBACK_CONFIRM" to VisitFeedback.CONFIRM.ordinal,
-            "VISIT_FEEDBACK_DENY" to VisitFeedback.DENY.ordinal,
-            "VISIT_FEEDBACK_WRONG_VENUE" to VisitFeedback.WRONG_VENUE.ordinal,
-            "VISIT_FEEDBACK_FALSE_STOP" to VisitFeedback.FALSE_STOP.ordinal,
-            "LOG_DEBUG" to PilgrimSdk.LogLevel.DEBUG.ordinal,
-            "LOG_INFO" to PilgrimSdk.LogLevel.INFO.ordinal,
-            "LOG_ERROR" to PilgrimSdk.LogLevel.ERROR.ordinal
+                "AuthorizedEvent" to "AuthorizedEvent"
         )
     }
 
     override fun hasConstants() = true
-
-
-    private val notificationHandler: PilgrimNotificationHandler = object : PilgrimNotificationHandler() {
-        override fun handlePlaceNotification(context: Context, notification: PilgrimSdkPlaceNotification) {
-
-        }
-
-        override fun handleNearbyNotification(context: Context, notification: PilgrimSdkNearbyNotification) {
-
-        }
-
-        override fun handleBackfillNotification(context: Context, notification: PilgrimSdkBackfillNotification) {
-
-        }
-    }
 
     companion object {
         const val REACT_MODULE_NAME = "RNPilgrimSdk"
@@ -96,7 +63,6 @@ class RNPilgrimSdk(reactContext: ReactApplicationContext) : ReactContextBaseJava
                 key: String,
                 secret: String
         ) {
-            Log.e("RNPilgrimSdk", "Initializing the sdk in application onCreate")
             PilgrimSdk.with(
                     PilgrimSdk.Builder(reactContext)
                             .consumer(key, secret)

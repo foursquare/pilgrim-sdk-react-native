@@ -1,7 +1,0 @@
-rootProject.name = 'pilgrim-sdk-react-native'
-
-include ":example"
-project(":example").projectDir = file("./example/android/app")
-
-include ":pilgrim-sdk-react-native"
-project(":pilgrim-sdk-react-native").projectDir = file("./android")
