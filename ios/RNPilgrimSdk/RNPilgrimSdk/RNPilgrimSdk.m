@@ -19,11 +19,11 @@ NSString * const DidBackfillVisitEvent = @"DidBackfillVisitEvent";
 
 @implementation RNPilgrimSdk
 
-- (void)intializeWithKey:(NSString *)key secret:(NSString *)secret {
-    [[FSQPPilgrimManager sharedManager] configureWithConsumerKey:key secret:secret delegate:self completion:nil];
-}
-
 RCT_EXPORT_MODULE();
+
+RCT_EXPORT_METHOD(setDebugLoggingEnabled:(BOOL)enabled) {
+    [FSQPPilgrimManager sharedManager].debugLoggingEnabled = enabled;
+}
 
 RCT_EXPORT_METHOD(requestAuthorization) {
     [[FSQPPilgrimManager sharedManager] requestAlwaysAuthorizationWithCompletion:^(BOOL didAuthorize) {
@@ -32,11 +32,23 @@ RCT_EXPORT_METHOD(requestAuthorization) {
 }
 
 RCT_EXPORT_METHOD(start) {
+    [FSQPPilgrimManager sharedManager].delegate = self;
     [[FSQPPilgrimManager sharedManager] startMonitoringVisits];
 }
 
 RCT_EXPORT_METHOD(stop) {
     [[FSQPPilgrimManager sharedManager] stopMonitoringVisits];
+}
+
+RCT_REMAP_METHOD(getDebugLogs,
+                 getDebugLogsWithResolver:(RCTPromiseResolveBlock)resolve
+                 rejecter:(RCTPromiseRejectBlock)reject) {
+    NSMutableArray<NSDictionary *> *logsJSON = [NSMutableArray array];
+    for (FSQPDebugLog *log in [FSQPPilgrimManager sharedManager].debugLogs) {
+        [logsJSON addObject:@{@"eventDescription": log.eventDescription,
+                              @"timestamp": @((long)[log.timestamp timeIntervalSince1970] * 1000L)}];
+    }
+    resolve(logsJSON);
 }
 
 RCT_REMAP_METHOD(getInstallId,
@@ -46,7 +58,9 @@ RCT_REMAP_METHOD(getInstallId,
 }
 
 - (NSDictionary *)constantsToExport {
-    return @{AuthorizedEvent: AuthorizedEvent};
+    return @{AuthorizedEvent: AuthorizedEvent,
+             DidVisitEvent: DidVisitEvent,
+             DidBackfillVisitEvent: DidBackfillVisitEvent};
 }
 
 + (BOOL)requiresMainQueueSetup {
@@ -58,11 +72,11 @@ RCT_REMAP_METHOD(getInstallId,
 }
 
 - (void)fsqpPilgrimManager:(FSQPPilgrimManager *)pilgrimManager didVisit:(FSQPVisit *)visit {
-    [self sendEventWithName:DidVisitEvent body:nil]; // TODO VISIT OBJECT ?!?
+    [self sendEventWithName:DidVisitEvent body:@{@"info":visit.description}];
 }
 
 - (void)fsqpPilgrimManager:(FSQPPilgrimManager *)pilgrimManager didBackfillVisit:(FSQPVisit *)visit {
-    [self sendEventWithName:DidBackfillVisitEvent body:nil]; // TODO VISIT OBJECT ?!?
+    [self sendEventWithName:DidBackfillVisitEvent body:@{@"info":visit.description}];
 }
 
 @end

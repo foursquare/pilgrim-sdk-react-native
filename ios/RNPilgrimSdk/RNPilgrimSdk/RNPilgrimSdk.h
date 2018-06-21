@@ -12,6 +12,4 @@
 
 @interface RNPilgrimSdk : RCTEventEmitter <RCTBridgeModule>
 
-- (void)intializeWithKey:(NSString *)key secret:(NSString *)secret;
-
 @end
