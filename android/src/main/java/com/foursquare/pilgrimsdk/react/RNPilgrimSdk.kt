@@ -4,14 +4,9 @@ package com.foursquare.pilgrimsdk.react
 
 import android.Manifest
 import android.content.Context
-import android.support.v4.app.ActivityCompat
 import com.facebook.react.ReactActivity
-import com.facebook.react.bridge.Promise
-import com.facebook.react.bridge.ReactApplicationContext
-import com.facebook.react.bridge.ReactContextBaseJavaModule
-import com.facebook.react.bridge.ReactMethod
+import com.facebook.react.bridge.*
 import com.facebook.react.modules.core.DeviceEventManagerModule
-import com.facebook.react.modules.core.PermissionListener
 import com.foursquare.pilgrim.PilgrimNotificationHandler
 import com.foursquare.pilgrim.PilgrimSdk
 import com.foursquare.pilgrim.PilgrimSdkPlaceNotification
@@ -21,9 +16,14 @@ class RNPilgrimSdk(reactContext: ReactApplicationContext) : ReactContextBaseJava
     override fun getName() = REACT_MODULE_NAME
 
     @ReactMethod
+    fun setDebugLoggingEnabled(enabled: Boolean) {
+        // TODO IS IT POSSIBLE TO UPDATE SINCE SET IN with USING BUILDER?!?
+    }
+
+    @ReactMethod
     fun requestAuthorization() {
         if (currentActivity != null && currentActivity is ReactActivity) {
-            (currentActivity as ReactActivity).requestPermissions(Array(1){Manifest.permission.ACCESS_FINE_LOCATION}, 0, { requestCode, permissions, grantResults ->
+            (currentActivity as ReactActivity).requestPermissions(Array(1) { Manifest.permission.ACCESS_FINE_LOCATION }, 0, { requestCode, permissions, grantResults ->
                 // TODO check if actually granted
                 reactApplicationContext.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter::class.java).emit("AuthorizedEvent", null)
                 true
@@ -42,13 +42,26 @@ class RNPilgrimSdk(reactContext: ReactApplicationContext) : ReactContextBaseJava
     }
 
     @ReactMethod
+    fun getDebugLogs(promise: Promise) {
+//        val logs = PilgrimSdk.getLogs()
+        val l = Arguments.createArray()
+        var m = Arguments.createMap()
+        m.putString("eventDescription", "Test log")
+        m.putDouble("timestamp", 1529699471 * 1000.0)
+        l.pushMap(m)
+        promise.resolve(l)
+    }
+
+    @ReactMethod
     fun getInstallId(promise: Promise) {
         promise.resolve(PilgrimSdk.getPilgrimInstallId())
     }
 
     override fun getConstants(): MutableMap<String, Any> {
         return mutableMapOf(
-                "AuthorizedEvent" to "AuthorizedEvent"
+                "AuthorizedEvent" to "AuthorizedEvent",
+                "DidVisitEvent" to "DidVisitEvent",
+                "DidBackfillVisitEvent" to "DidBackfillVisitEvent"
         )
     }
 
@@ -66,6 +79,7 @@ class RNPilgrimSdk(reactContext: ReactApplicationContext) : ReactContextBaseJava
             PilgrimSdk.with(
                     PilgrimSdk.Builder(reactContext)
                             .consumer(key, secret)
+                            .logLevel(PilgrimSdk.LogLevel.DEBUG)
                             .notificationHandler(object : PilgrimNotificationHandler() {
                                 override fun handlePlaceNotification(p0: Context, p1: PilgrimSdkPlaceNotification) {
 
