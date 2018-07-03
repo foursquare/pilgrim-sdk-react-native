@@ -4,6 +4,7 @@ package com.foursquare.pilgrimsdk.react
 
 import android.Manifest
 import android.content.Context
+import android.os.Build
 import com.facebook.react.ReactActivity
 import com.facebook.react.bridge.*
 import com.facebook.react.modules.core.DeviceEventManagerModule
@@ -22,6 +23,9 @@ class RNPilgrimSdk(reactContext: ReactApplicationContext) : ReactContextBaseJava
 
     @ReactMethod
     fun requestAuthorization() {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+            return
+        }
         if (currentActivity != null && currentActivity is ReactActivity) {
             (currentActivity as ReactActivity).requestPermissions(Array(1) { Manifest.permission.ACCESS_FINE_LOCATION }, 0, { requestCode, permissions, grantResults ->
                 // TODO check if actually granted

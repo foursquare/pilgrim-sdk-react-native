@@ -57,6 +57,14 @@ RCT_REMAP_METHOD(getInstallId,
     resolve([FSQPPilgrimManager sharedManager].installId);
 }
 
+RCT_EXPORT_METHOD(testArrivalVisit) {
+    [[FSQPPilgrimManager sharedManager] fireTestVisitWithConfidence:FSQPConfidenceHigh locationType:FSQPLocationTypeVenue isDeparture:NO];
+}
+
+RCT_EXPORT_METHOD(testDepartureVisit) {
+    [[FSQPPilgrimManager sharedManager] fireTestVisitWithConfidence:FSQPConfidenceHigh locationType:FSQPLocationTypeVenue isDeparture:YES];
+}
+
 - (NSDictionary *)constantsToExport {
     return @{AuthorizedEvent: AuthorizedEvent,
              DidVisitEvent: DidVisitEvent,
@@ -71,12 +79,45 @@ RCT_REMAP_METHOD(getInstallId,
     return @[AuthorizedEvent, DidVisitEvent, DidBackfillVisitEvent];
 }
 
++ (NSDictionary *)visitJSONDictionary:(FSQPVisit *)visit {
+    FSQPVenue *venue = visit.venue;
+    NSMutableDictionary *venueDict = [NSMutableDictionary dictionary];
+    venueDict[@"name"] = venue.name;
+    
+    FSQPVenueLocation *location = visit.venue.locationInformation;
+    NSMutableDictionary *locationDict = [NSMutableDictionary dictionary];
+    if (location.address) {
+        locationDict[@"address"] = location.address;
+    }
+    if (location.crossStreet) {
+        locationDict[@"crossStreet"] = location.crossStreet;
+    }
+    if (location.city) {
+        locationDict[@"city"] = location.city;
+    }
+    if (location.state) {
+        locationDict[@"state"] = location.state;
+    }
+    if (location.postalCode) {
+        locationDict[@"postalCode"] = location.postalCode;
+    }
+    if (location.country) {
+        locationDict[@"country"] = location.country;
+    }
+    locationDict[@"lat"] = @(location.coordinate.latitude);
+    locationDict[@"lng"] = @(location.coordinate.longitude);
+    venueDict[@"location"] = locationDict;
+    
+    return @{@"pilgrimVisitId": visit.pilgrimVisitId,
+             @"venue": venueDict};
+}
+
 - (void)fsqpPilgrimManager:(FSQPPilgrimManager *)pilgrimManager didVisit:(FSQPVisit *)visit {
-    [self sendEventWithName:DidVisitEvent body:@{@"info":visit.description}];
+    [self sendEventWithName:DidVisitEvent body:[[self class] visitJSONDictionary:visit]];
 }
 
 - (void)fsqpPilgrimManager:(FSQPPilgrimManager *)pilgrimManager didBackfillVisit:(FSQPVisit *)visit {
-    [self sendEventWithName:DidBackfillVisitEvent body:@{@"info":visit.description}];
+    [self sendEventWithName:DidVisitEvent body:[[self class] visitJSONDictionary:visit]];
 }
 
 @end
