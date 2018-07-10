@@ -21,13 +21,21 @@ NSString * const DidBackfillVisitEvent = @"DidBackfillVisitEvent";
 
 RCT_EXPORT_MODULE();
 
-RCT_EXPORT_METHOD(setDebugLoggingEnabled:(BOOL)enabled) {
-    [FSQPPilgrimManager sharedManager].debugLoggingEnabled = enabled;
+RCT_REMAP_METHOD(isSupportedDevice,
+                 isSupportedDeviceWithResolver:(RCTPromiseResolveBlock)resolve
+                 rejecter:(RCTPromiseRejectBlock)reject) {
+    resolve(@([FSQPPilgrimManager sharedManager].isSupportedDevice));
+}
+
+RCT_REMAP_METHOD(canEnable,
+                 canEnableWithResolver:(RCTPromiseResolveBlock)resolve
+                 rejecter:(RCTPromiseRejectBlock)reject) {
+    resolve(@([FSQPPilgrimManager sharedManager].canEnable));
 }
 
 RCT_EXPORT_METHOD(requestAuthorization) {
     [[FSQPPilgrimManager sharedManager] requestAlwaysAuthorizationWithCompletion:^(BOOL didAuthorize) {
-        [self sendEventWithName:AuthorizedEvent body:nil];
+        [self sendEventWithName:AuthorizedEvent body:@(didAuthorize)];
     }];
 }
 
@@ -40,29 +48,14 @@ RCT_EXPORT_METHOD(stop) {
     [[FSQPPilgrimManager sharedManager] stopMonitoringVisits];
 }
 
-RCT_REMAP_METHOD(getDebugLogs,
-                 getDebugLogsWithResolver:(RCTPromiseResolveBlock)resolve
-                 rejecter:(RCTPromiseRejectBlock)reject) {
-    NSMutableArray<NSDictionary *> *logsJSON = [NSMutableArray array];
-    for (FSQPDebugLog *log in [FSQPPilgrimManager sharedManager].debugLogs) {
-        [logsJSON addObject:@{@"eventDescription": log.eventDescription,
-                              @"timestamp": @((long)[log.timestamp timeIntervalSince1970] * 1000L)}];
-    }
-    resolve(logsJSON);
-}
-
 RCT_REMAP_METHOD(getInstallId,
                  getInstallIdWithResolver:(RCTPromiseResolveBlock)resolve
                  rejecter:(RCTPromiseRejectBlock)reject) {
     resolve([FSQPPilgrimManager sharedManager].installId);
 }
 
-RCT_EXPORT_METHOD(testArrivalVisit) {
-    [[FSQPPilgrimManager sharedManager] fireTestVisitWithConfidence:FSQPConfidenceHigh locationType:FSQPLocationTypeVenue isDeparture:NO];
-}
-
-RCT_EXPORT_METHOD(testDepartureVisit) {
-    [[FSQPPilgrimManager sharedManager] fireTestVisitWithConfidence:FSQPConfidenceHigh locationType:FSQPLocationTypeVenue isDeparture:YES];
+RCT_EXPORT_METHOD(testVenueVisit:(BOOL)isDeparture) {
+    [[FSQPPilgrimManager sharedManager] fireTestVisitWithConfidence:FSQPConfidenceHigh locationType:FSQPLocationTypeVenue isDeparture:isDeparture];
 }
 
 - (NSDictionary *)constantsToExport {
@@ -109,7 +102,8 @@ RCT_EXPORT_METHOD(testDepartureVisit) {
     venueDict[@"location"] = locationDict;
     
     return @{@"pilgrimVisitId": visit.pilgrimVisitId,
-             @"venue": venueDict};
+             @"venue": venueDict,
+             @"isArrival": @(visit.isArrival)};
 }
 
 - (void)fsqpPilgrimManager:(FSQPPilgrimManager *)pilgrimManager didVisit:(FSQPVisit *)visit {
