@@ -1,4 +1,6 @@
+
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.foursquare.pilgrimsdk.react">
+          package="com.foursquare.pilgrim.react">
 
 </manifest>
+  
