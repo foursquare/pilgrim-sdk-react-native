@@ -99,12 +99,12 @@ export type CurrentLocation = {
 
 export interface PilgrimSdk {
     /**
-     * If the current device is supported (no iPads or iPod touches; cellular network required)
+     * If the current device is supported (no iPads or iPod touches; cellular network required) (iOS only)
      */
     isSupportedDevice(): Promise<boolean>;
 
     /**
-     * If the user is on a supported device and all the required settings ("always" location permission) are on
+     * If the user is on a supported device and all the required settings ("always" location permission) are on (iOS only)
      */
     canEnable(): Promise<boolean>;
 
