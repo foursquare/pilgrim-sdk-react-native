@@ -1,3 +1,33 @@
+/**
+ * An object representing an interaction with one or more registered geofence radii.
+ */
+export type GeofenceEvent = {
+    geofenceID: string;
+    name: string;
+}
+
+/**
+ * Representation of a venue in the Foursquare Places database.
+ */
+export type Venue = {
+    name: string;
+}
+
+/**
+ * Everything Pilgrim knows about a user's location, including raw data and a probable venue.
+ */
+export type Visit = {
+    venue: Venue;
+};
+
+/**
+ * An object representing the current location of the user.
+ */
+export type CurrentLocation = {
+    currentPlace: Visit;
+    matchedGeofences: [GeofenceEvent];
+};
+
 export interface PilgrimSdk {
     /**
      * If the current device is supported (no iPads or iPod touches; cellular network required)
@@ -28,7 +58,7 @@ export interface PilgrimSdk {
      * Gets the current location of the user.
      * This includes possibly a visit and and an array of geofences.
      */
-    getCurrentLocation(): Promise<string>;
+    getCurrentLocation(): Promise<CurrentLocation>;
 
     /**
      * Generates a visit and optional nearby venues at the given location.
