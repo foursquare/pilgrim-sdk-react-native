@@ -1,23 +1,92 @@
+export type Location = {
+    latitude: number;
+    longitude: number;
+};
+
 /**
  * An object representing an interaction with one or more registered geofence radii.
  */
 export type GeofenceEvent = {
-    geofenceID: string;
+    id: string;
     name: string;
-}
+    venueId: string;
+    venue: Venue;
+    partnerVenueId: string;
+    location: Location;
+    timestamp: number;
+};
+
+/**
+ * Foursquare location object for a venue.
+ */
+export type LocationInformation = {
+    address: string;
+    crossStreet: string;
+    city: string;
+    state: string;
+    postalCode: string;
+    country: string;
+    location: Location;
+};
+
+/**
+ * Foursquare representation of a chain of venues, i.e. Starbucks.
+ */
+export type Chain = {
+    id: string;
+    name: string;
+};
+
+/**
+ * Foursquare category for a venue.
+ */
+export type Category = {
+    id: string;
+    name: string;
+    pluralName: string;
+    shortName: string;
+    icon: CategoryIcon;
+    isPrimary: boolean;
+};
+
+/**
+ * The icon image information for a category.
+ */
+export type CategoryIcon = {
+    prefix: string;
+    suffix: string;
+};
 
 /**
  * Representation of a venue in the Foursquare Places database.
  */
 export type Venue = {
+    id: string;
     name: string;
-}
+    locationInformation: LocationInformation;
+    partnerVenueId: string;
+    probability: number;
+    chains: [Chain];
+    categories: [Category];
+    hierarchy: [VenueParent];
+};
+
+export type VenueParent = {
+    id: string;
+    name: string;
+    categories: [Category];
+};
 
 /**
  * Everything Pilgrim knows about a user's location, including raw data and a probable venue.
  */
 export type Visit = {
+    location: Location;
+    locationType: number;
+    confidence: number;
+    arrivalTime: number;
     venue: Venue;
+    otherPossibleVenues: [Venue];
 };
 
 /**
@@ -67,5 +136,4 @@ export interface PilgrimSdk {
 }
 
 declare let PilgrimSdk: PilgrimSdk
-module.exports.PilgrimSdk = PilgrimSdk;
 export default PilgrimSdk
