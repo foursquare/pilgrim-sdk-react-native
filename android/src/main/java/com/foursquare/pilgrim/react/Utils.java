@@ -40,35 +40,35 @@ final class Utils {
 
         int locationType;
         switch (visit.getType()) {
-            case HOME:
-                locationType = 1;
-                break;
-            case WORK:
-                locationType = 2;
-                break;
-            case VENUE:
-                locationType = 3;
-                break;
-            default:
-                locationType = 0;
-                break;
+        case HOME:
+            locationType = 1;
+            break;
+        case WORK:
+            locationType = 2;
+            break;
+        case VENUE:
+            locationType = 3;
+            break;
+        default:
+            locationType = 0;
+            break;
         }
         json.putInt("locationType", locationType);
 
         int confidence;
         switch (visit.getConfidence()) {
-            case LOW:
-                confidence = 1;
-                break;
-            case MEDIUM:
-                confidence = 2;
-                break;
-            case HIGH:
-                confidence = 3;
-                break;
-            default:
-                confidence = 0;
-                break;
+        case LOW:
+            confidence = 1;
+            break;
+        case MEDIUM:
+            confidence = 2;
+            break;
+        case HIGH:
+            confidence = 3;
+            break;
+        default:
+            confidence = 0;
+            break;
         }
         json.putInt("confidence", confidence);
 
@@ -90,6 +90,7 @@ final class Utils {
     private static ReadableMap geofenceEventJson(GeofenceEvent geofenceEvent) {
         WritableMap json = Arguments.createMap();
         json.putString("id", geofenceEvent.getId());
+        json.putString("name", geofenceEvent.getName());
 
         if (geofenceEvent.getVenue() != null) {
             Venue venue = geofenceEvent.getVenue();
@@ -188,7 +189,6 @@ final class Utils {
         }
 
         json.putDouble("probability", venue.getProbability());
-
 
         json.putArray("chains", chainsArrayJson(venue.getVenueChains()));
 
