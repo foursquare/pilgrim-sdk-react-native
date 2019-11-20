@@ -1,4 +1,4 @@
-export type Location = {
+export interface Location {
     latitude: number;
     longitude: number;
 };
@@ -6,7 +6,7 @@ export type Location = {
 /**
  * An object representing an interaction with one or more registered geofence radii.
  */
-export type GeofenceEvent = {
+export interface GeofenceEvent {
     id: string;
     name: string;
     venueId: string;
@@ -19,7 +19,7 @@ export type GeofenceEvent = {
 /**
  * Foursquare location object for a venue.
  */
-export type LocationInformation = {
+export interface LocationInformation {
     address: string;
     crossStreet: string;
     city: string;
@@ -32,7 +32,7 @@ export type LocationInformation = {
 /**
  * Foursquare representation of a chain of venues, i.e. Starbucks.
  */
-export type Chain = {
+export interface Chain {
     id: string;
     name: string;
 };
@@ -40,7 +40,7 @@ export type Chain = {
 /**
  * Foursquare category for a venue.
  */
-export type Category = {
+export interface Category {
     id: string;
     name: string;
     pluralName: string;
@@ -52,7 +52,7 @@ export type Category = {
 /**
  * The icon image information for a category.
  */
-export type CategoryIcon = {
+export interface CategoryIcon {
     prefix: string;
     suffix: string;
 };
@@ -60,7 +60,7 @@ export type CategoryIcon = {
 /**
  * Representation of a venue in the Foursquare Places database.
  */
-export type Venue = {
+export interface Venue {
     id: string;
     name: string;
     locationInformation: LocationInformation;
@@ -71,7 +71,7 @@ export type Venue = {
     hierarchy: [VenueParent];
 };
 
-export type VenueParent = {
+export interface VenueParent {
     id: string;
     name: string;
     categories: [Category];
@@ -80,7 +80,7 @@ export type VenueParent = {
 /**
  * Everything Pilgrim knows about a user's location, including raw data and a probable venue.
  */
-export type Visit = {
+export interface Visit {
     location: Location;
     locationType: number;
     confidence: number;
@@ -92,7 +92,7 @@ export type Visit = {
 /**
  * An object representing the current location of the user.
  */
-export type CurrentLocation = {
+export interface CurrentLocation {
     currentPlace: Visit;
     matchedGeofences: [GeofenceEvent];
 };
