@@ -12,6 +12,10 @@
   ],
   "author": "Brian Rojas",
   "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/foursquare/pilgrim-sdk-react-native.git"
+  },
   "peerDependencies": {
     "react-native": "^0.41.2"
   }
