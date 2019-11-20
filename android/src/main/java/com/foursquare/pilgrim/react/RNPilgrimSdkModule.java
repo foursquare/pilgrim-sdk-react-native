@@ -1,6 +1,8 @@
 
 package com.foursquare.pilgrim.react;
 
+import android.content.Intent;
+
 import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
@@ -9,8 +11,7 @@ import com.foursquare.pilgrim.CurrentLocation;
 import com.foursquare.pilgrim.PilgrimNotificationTester;
 import com.foursquare.pilgrim.PilgrimSdk;
 import com.foursquare.pilgrim.Result;
-
-import org.json.JSONException;
+import com.foursquare.pilgrimsdk.debugging.PilgrimSdkDebugActivity;
 
 public class RNPilgrimSdkModule extends ReactContextBaseJavaModule {
 
@@ -70,5 +71,10 @@ public class RNPilgrimSdkModule extends ReactContextBaseJavaModule {
     @ReactMethod
     public void fireTestVisit(double latitude, double longitude) {
         PilgrimNotificationTester.sendTestVisitArrivalAtLocation(reactContext, latitude, longitude, false);
+    }
+
+    @ReactMethod
+    public void showDebugScreen() {
+        reactContext.startActivity(new Intent(reactContext, PilgrimSdkDebugActivity.class));
     }
 }

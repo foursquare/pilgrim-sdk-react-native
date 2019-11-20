@@ -9,9 +9,9 @@ export interface Location {
 export interface GeofenceEvent {
     id: string;
     name: string;
-    venueId: string;
-    venue: Venue;
-    partnerVenueId: string;
+    venueId?: string;
+    venue?: Venue;
+    partnerVenueId?: string;
     location: Location;
     timestamp: number;
 };
@@ -20,13 +20,13 @@ export interface GeofenceEvent {
  * Foursquare location object for a venue.
  */
 export interface LocationInformation {
-    address: string;
-    crossStreet: string;
-    city: string;
-    state: string;
-    postalCode: string;
-    country: string;
-    location: Location;
+    address?: string;
+    crossStreet?: string;
+    city?: string;
+    state?: string;
+    postalCode?: string;
+    country?: string;
+    location?: Location;
 };
 
 /**
@@ -43,9 +43,9 @@ export interface Chain {
 export interface Category {
     id: string;
     name: string;
-    pluralName: string;
-    shortName: string;
-    icon: CategoryIcon;
+    pluralName?: string;
+    shortName?: string;
+    icon?: CategoryIcon;
     isPrimary: boolean;
 };
 
@@ -63,9 +63,9 @@ export interface CategoryIcon {
 export interface Venue {
     id: string;
     name: string;
-    locationInformation: LocationInformation;
-    partnerVenueId: string;
-    probability: number;
+    locationInformation?: LocationInformation;
+    partnerVenueId?: string;
+    probability?: number;
     chains: [Chain];
     categories: [Category];
     hierarchy: [VenueParent];
@@ -81,12 +81,12 @@ export interface VenueParent {
  * Everything Pilgrim knows about a user's location, including raw data and a probable venue.
  */
 export interface Visit {
-    location: Location;
+    location?: Location;
     locationType: number;
     confidence: number;
-    arrivalTime: number;
-    venue: Venue;
-    otherPossibleVenues: [Venue];
+    arrivalTime?: number;
+    venue?: Venue;
+    otherPossibleVenues?: [Venue];
 };
 
 /**
@@ -133,6 +133,17 @@ export interface PilgrimSdk {
      * Generates a visit and optional nearby venues at the given location.
      */
     fireTestVisit(latitude: number, longitude: number): void;
+
+    /**
+    *  Saves detailed logs of activity for debugging purposes.
+    */
+    setDebugLogsEnabled(enabled: boolean): void;
+
+    /**
+     * Initializes a debug mode view controller for viewing PilgrimSDK logs and presents it.
+     */
+    showDebugScreen(): void;
+
 }
 
 declare let PilgrimSdk: PilgrimSdk

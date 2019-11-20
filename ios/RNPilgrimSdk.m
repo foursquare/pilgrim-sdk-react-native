@@ -56,4 +56,10 @@ RCT_EXPORT_METHOD(fireTestVisit:(double)latitude longitude:(double)longitude) {
     [[FSQPPilgrimManager sharedManager].visitTester fireTestVisit:location];
 }
 
+RCT_EXPORT_METHOD(showDebugScreen) {
+    [FSQPPilgrimManager sharedManager].debugLogsEnabled = YES;
+    UIViewController *viewController = [UIApplication sharedApplication].keyWindow.rootViewController;
+    [[FSQPPilgrimManager sharedManager] presentDebugViewController:viewController];
+}
+
 @end
