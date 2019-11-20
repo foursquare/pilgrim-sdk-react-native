@@ -135,11 +135,6 @@ export interface PilgrimSdk {
     fireTestVisit(latitude: number, longitude: number): void;
 
     /**
-    *  Saves detailed logs of activity for debugging purposes.
-    */
-    setDebugLogsEnabled(enabled: boolean): void;
-
-    /**
      * Initializes a debug mode view controller for viewing PilgrimSDK logs and presents it.
      */
     showDebugScreen(): void;
