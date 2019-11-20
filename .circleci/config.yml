@@ -18,9 +18,9 @@ workflows:
   version: 2
   main:
     jobs:
-      - deploy
-          # filters:
-#             branches:
-#               ignore: /.*/
-#             tags:
-#               only: /^v\d+\.\d+\.\d+$/
+      - deploy:
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /^v\d+\.\d+\.\d+$/
