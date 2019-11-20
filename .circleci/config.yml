@@ -1,0 +1,13 @@
+version: 2
+
+defaults: &defaults
+  working_directory: ~/repo
+  docker:
+    - image: circleci/node:12.2
+      
+jobs:
+  build:
+    <<: *defaults
+    steps:
+      - checkout
+      - run: yarn install
