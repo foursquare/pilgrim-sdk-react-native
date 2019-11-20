@@ -107,7 +107,7 @@ public class MainApplication extends Application implements ReactApplication {
 // App.js
 import React, { Component } from 'react';
 import { Text } from 'react-native';
-import PilgrimSdk from 'pilgrim-sdk-react-native';
+import PilgrimSdk from '@foursquare/pilgrim-sdk-react-native';
 
 export default class Screen extends Component {
     state = {
