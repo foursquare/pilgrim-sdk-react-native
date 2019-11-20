@@ -1,5 +1,5 @@
 {
-  "name": "pilgrim-sdk-react-native",
+  "name": "@foursquare/pilgrim-sdk-react-native",
   "homepage": "https://enterprise.foursquare.com/products/pilgrim",
   "version": "1.0.0",
   "description": "React native wrapper for the Pilgrim SDK",
