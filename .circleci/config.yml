@@ -14,11 +14,11 @@ jobs:
       - run:
           name: Publish package
           command: npm publish
-# workflows:
-#   version: 2
-#   main:
-#     jobs:
-#       - deploy:
+workflows:
+  version: 2
+  main:
+    jobs:
+      - deploy:
 #           filters:
 #             branches:
 #               ignore: /.*/
