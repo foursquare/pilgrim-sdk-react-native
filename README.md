@@ -38,6 +38,8 @@
 
 ## Usage
 
+### Application Setup
+
 #### iOS Setup
 
 You must call `[[FSQPPilgrimManager sharedManager] configureWithConsumerKey:secret:delegate:completion:]` from `application:didFinishLaunchingWithOptions` in a your application delegate, for example:
