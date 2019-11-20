@@ -18,8 +18,8 @@ workflows:
   version: 2
   main:
     jobs:
-      - deploy:
-#           filters:
+      - deploy
+          # filters:
 #             branches:
 #               ignore: /.*/
 #             tags:
