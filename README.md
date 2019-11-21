@@ -11,6 +11,7 @@
     * [Passive Location Detection](#passive-location-detection)
     * [Debug Screen](#debug-screen)
     * [Test Visits](#test-visits)
+* [Samples](#samples)
 * [FAQ](#faq)
 
 ## Installing
@@ -275,6 +276,10 @@ export default class Screen extends Component {
     }
 }
 ```
+
+## Samples
+
+* [React Native Pilgrim SDK Sample App](https://github.com/foursquare/RNPilgrimSample) - Basic application using pilgrim-sdk-react-native
 
 ## FAQ
 
