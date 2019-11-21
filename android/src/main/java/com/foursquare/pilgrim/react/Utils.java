@@ -94,6 +94,7 @@ final class Utils {
 
         if (geofenceEvent.getVenue() != null) {
             Venue venue = geofenceEvent.getVenue();
+            json.putString("name", venue.getName());
             json.putString("venueId", venue.getId());
             json.putMap("venue", venueJson(venue));
         }
