@@ -33,5 +33,6 @@ repositories {
 dependencies {
     implementation 'com.facebook.react:react-native:+'
     implementation 'com.foursquare:pilgrimsdk:2.2.2'
+    implementation 'com.foursquare:pilgrimsdk-debugging:2.2.2'
 }
   
