@@ -245,6 +245,37 @@ export default class Screen extends Component {
 }
 ```
 
+### Test Visits
+
+Test arrival visits can be fired with the method `PilgrimSdk.fireTestVisit`. You must pass a location to be used for the test visit. The arrival notification will be received via [Webhooks](https://developer.foursquare.com/docs/pilgrim-sdk/webhooks) and other [third-party integrations](https://developer.foursquare.com/docs/pilgrim-sdk/integrations)
+
+```javascript
+import React, { Component } from 'react';
+import { Button } from 'react-native';
+import PilgrimSdk from '@foursquare/pilgrim-sdk-react-native';
+
+export default class Screen extends Component {
+    fireTestVisit = async function () {
+        navigator.geolocation.getCurrentPosition((position) => {
+            const latitude = position.coords.latitude;
+            const longitude = position.coords.longitude;
+            PilgrimSdk.fireTestVisit(latitude, longitude);
+            Alert.alert("Pilgrim SDK", `Sent test visit with location: (${latitude},${longitude})`);
+        }, err => {
+            Alert.alert("Pilgrim SDK", `${err}`);
+        });
+    }
+
+    render() {
+        return (
+            <>
+                <Button title="Fire Test Visit" onPress={() => { this.fireTestVisit(); }} />
+            </>
+        );
+    }
+}
+```
+
 ## FAQ
 
 Consult the Pilgrim documentation [here](https://developer.foursquare.com/docs/pilgrim-sdk/FAQ)
