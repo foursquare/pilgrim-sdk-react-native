@@ -4,6 +4,24 @@
 #import <Pilgrim/Pilgrim.h>
 #import "FSQPCurrentLocation+JSON.h"
 
+@interface PilgrimDelegate : NSObject <FSQPPilgrimManagerDelegate>
+@end
+
+@implementation PilgrimDelegate
+
++ (instancetype)shared {
+    static id instance;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        instance = [[[self class] alloc] init];
+    });
+    return instance;
+}
+
+- (void)pilgrimManager:(FSQPPilgrimManager *)pilgrimManager handleVisit:(FSQPVisit *)visit {}
+
+@end
+
 @implementation RNPilgrimSdk
 
 RCT_EXPORT_MODULE();
@@ -53,6 +71,9 @@ RCT_REMAP_METHOD(getCurrentLocation,
 
 RCT_EXPORT_METHOD(fireTestVisit:(double)latitude longitude:(double)longitude) {
     CLLocation *location = [[CLLocation alloc] initWithLatitude:latitude longitude:longitude];
+    if ([FSQPPilgrimManager sharedManager].delegate == nil) {
+        [FSQPPilgrimManager sharedManager].delegate = [PilgrimDelegate shared];
+    }
     [[FSQPPilgrimManager sharedManager].visitTester fireTestVisit:location];
 }
 
