@@ -9,6 +9,7 @@
     * [Application Setup](#application-setup)
     * [Getting User's Current Location](#getting-users-current-location)
     * [Passive Location Detection](#passive-location-detection)
+    * [Debug Screen](#debug-screen)
     * [Test Visits](#test-visits)
 * [FAQ](#faq)
 
@@ -219,31 +220,25 @@ export default class Screen extends Component {
 }
 ```
 
-### Test Visits
+### Debug Screen
 
-Test arrival visits can be fired with the method `PilgrimSdk.fireTestVisit`. You must pass a location to be used for the test visit. The arrival notification will be received via [Webhooks](https://developer.foursquare.com/docs/pilgrim-sdk/webhooks) and other [third-party integrations](https://developer.foursquare.com/docs/pilgrim-sdk/integrations)
+The debug screen is shown using the `PilgrimSdk.showDebugScreen` method. This screen contains logs sent from Pilgrim SDK and other debugging tools/information. Example usage below:
+
 
 ```javascript
 import React, { Component } from 'react';
-import { Alert, Button } from 'react-native';
+import { Button } from 'react-native';
 import PilgrimSdk from '@foursquare/pilgrim-sdk-react-native';
 
 export default class Screen extends Component {
-    fireTestVisit = async function () {
-        navigator.geolocation.getCurrentPosition((position) => {
-            const latitude = position.coords.latitude;
-            const longitude = position.coords.longitude;
-            PilgrimSdk.fireTestVisit(latitude, longitude);
-            Alert.alert("Pilgrim SDK", `Sent test visit with location: (${latitude},${longitude})`);
-        }, err => {
-            Alert.alert("Pilgrim SDK", `${err}`);
-        });
+    showDebugScreen = function () {
+        PilgrimSdk.showDebugScreen();
     }
 
     render() {
         return (
             <>
-                <Button title="Fire Test Visit" onPress={() => { this.fireTestVisit(); }} />
+                <Button title="Show Debug Screen" onPress={() => { this.showDebugScreen(); }} />
             </>
         );
     }
