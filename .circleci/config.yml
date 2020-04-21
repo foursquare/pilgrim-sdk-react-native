@@ -5,6 +5,7 @@ defaults: &defaults
     - image: circleci/node:12.2 
 jobs:
   dummy:
+    <<: *defaults
     steps:
       - run:
           name: Running dummy job
