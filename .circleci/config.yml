@@ -5,7 +5,8 @@ defaults: &defaults
     - image: circleci/node:12.2 
 jobs:
   dummy:
-    <<: *defaults
+    docker:
+      - image: cimg/base:2020.01
     steps:
       - run:
           name: Running dummy job
