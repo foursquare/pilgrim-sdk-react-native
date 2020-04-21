@@ -28,13 +28,12 @@ jobs:
 workflows:
   version: 2
   main:
-    dummy:
+    untagged-build:
       jobs:
         - dummy
-    jobs:
-      - deploy:
-          filters:
-            branches:
-              ignore: /.*/
-            tags:
-              only: /^v\d+\.\d+\.\d+$/
+    tagged-build:
+      jobs:
+        - deploy:
+            filters:
+              tags:
+                only: /^v\d+\.\d+\.\d+$/
