@@ -27,13 +27,12 @@ jobs:
             curl -s -X POST -d "{\"tag_name\":\"$CIRCLE_TAG\",\"name\":\"$CIRCLE_TAG\",\"body\":\"iOS SDK version: ${ios_version}\nAndroid SDK version: ${android_version}\",\"draft\":false,\"prerelease\":false}" -H "Authorization: token $GITHUB_TOKEN" -H "Accept: application/vnd.github.v3+json" "https://api.github.com/repos/foursquare/pilgrim-sdk-react-native/releases"
 workflows:
   version: 2
-  main:
-    untagged-build:
-      jobs:
-        - dummy
-    tagged-build:
-      jobs:
-        - deploy:
-            filters:
-              tags:
-                only: /^v\d+\.\d+\.\d+$/
+  untagged-build:
+    jobs:
+      - dummy
+  tagged-build:
+    jobs:
+      - deploy:
+          filters:
+            tags:
+              only: /^v\d+\.\d+\.\d+$/
