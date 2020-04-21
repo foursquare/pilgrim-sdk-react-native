@@ -28,6 +28,9 @@ jobs:
 workflows:
   version: 2
   main:
+    dummy:
+      jobs:
+        - dummy
     jobs:
       - deploy:
           filters:
