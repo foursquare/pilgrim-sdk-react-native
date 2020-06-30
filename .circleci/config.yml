@@ -1,20 +1,24 @@
-version: 2
+version: 2.1
 defaults: &defaults
-  working_directory: ~/repo
   docker:
-    - image: circleci/node:12.2 
+    - image: circleci/node:12.2
 jobs:
-  dummy:
-    docker:
-      - image: cimg/base:2020.01
-    steps:
-      - run:
-          name: Running dummy job
-          command: echo ''
-  deploy:
+  lint:
     <<: *defaults
     steps:
       - checkout
+      - run:
+          name: Lint
+          command: npm run lint
+      - persist_to_workspace:
+          root: .
+          paths:
+            - .
+  deploy:
+    <<: *defaults
+    steps:
+      - attach_workspace:
+          at: .
       - run:
           name: Authenticate with registry
           command: echo "//registry.npmjs.org/:_authToken=$npm_TOKEN" > ~/repo/.npmrc
@@ -31,10 +35,13 @@ workflows:
   version: 2
   untagged-build:
     jobs:
-      - dummy
+      - lint
   tagged-build:
     jobs:
+      - lint
       - deploy:
+          requires:
+            - lint
           filters:
             branches:
               ignore: /.*/
