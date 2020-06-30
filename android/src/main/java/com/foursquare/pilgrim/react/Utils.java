@@ -1,8 +1,6 @@
 package com.foursquare.pilgrim.react;
 
 import com.facebook.react.bridge.Arguments;
-import com.facebook.react.bridge.ReadableArray;
-import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.bridge.WritableArray;
 import com.facebook.react.bridge.WritableMap;
 import com.foursquare.api.FoursquareLocation;
@@ -21,7 +19,7 @@ final class Utils {
 
     }
 
-    static ReadableMap currentLocationJson(CurrentLocation currentLocation) {
+    static WritableMap currentLocationJson(CurrentLocation currentLocation) {
         WritableMap json = Arguments.createMap();
         json.putMap("currentPlace", visitJson(currentLocation.getCurrentPlace()));
 
@@ -34,41 +32,41 @@ final class Utils {
         return json;
     }
 
-    private static ReadableMap visitJson(Visit visit) {
+    private static WritableMap visitJson(Visit visit) {
         WritableMap json = Arguments.createMap();
         json.putMap("location", foursquareLocationJson(visit.getLocation()));
 
         int locationType;
         switch (visit.getType()) {
-        case HOME:
-            locationType = 1;
-            break;
-        case WORK:
-            locationType = 2;
-            break;
-        case VENUE:
-            locationType = 3;
-            break;
-        default:
-            locationType = 0;
-            break;
+            case HOME:
+                locationType = 1;
+                break;
+            case WORK:
+                locationType = 2;
+                break;
+            case VENUE:
+                locationType = 3;
+                break;
+            default:
+                locationType = 0;
+                break;
         }
         json.putInt("locationType", locationType);
 
         int confidence;
         switch (visit.getConfidence()) {
-        case LOW:
-            confidence = 1;
-            break;
-        case MEDIUM:
-            confidence = 2;
-            break;
-        case HIGH:
-            confidence = 3;
-            break;
-        default:
-            confidence = 0;
-            break;
+            case LOW:
+                confidence = 1;
+                break;
+            case MEDIUM:
+                confidence = 2;
+                break;
+            case HIGH:
+                confidence = 3;
+                break;
+            default:
+                confidence = 0;
+                break;
         }
         json.putInt("confidence", confidence);
 
@@ -87,7 +85,7 @@ final class Utils {
         return json;
     }
 
-    private static ReadableMap geofenceEventJson(GeofenceEvent geofenceEvent) {
+    private static WritableMap geofenceEventJson(GeofenceEvent geofenceEvent) {
         WritableMap json = Arguments.createMap();
         json.putString("id", geofenceEvent.getId());
         json.putString("name", geofenceEvent.getName());
@@ -108,14 +106,14 @@ final class Utils {
         return json;
     }
 
-    private static ReadableMap chainJson(Venue.VenueChain chain) {
+    private static WritableMap chainJson(Venue.VenueChain chain) {
         WritableMap json = Arguments.createMap();
         json.putString("id", chain.getId());
         json.putString("name", chain.getName());
         return json;
     }
 
-    private static ReadableArray chainsArrayJson(List<Venue.VenueChain> chains) {
+    private static WritableArray chainsArrayJson(List<Venue.VenueChain> chains) {
         WritableArray json = Arguments.createArray();
         if (chains != null) {
             for (Venue.VenueChain chain : chains) {
@@ -125,7 +123,7 @@ final class Utils {
         return json;
     }
 
-    private static ReadableArray categoryArrayJson(List<Category> categories) {
+    private static WritableArray categoryArrayJson(List<Category> categories) {
         WritableArray json = Arguments.createArray();
         for (Category category : categories) {
             json.pushMap(categoryJson(category));
@@ -133,7 +131,7 @@ final class Utils {
         return json;
     }
 
-    private static ReadableMap categoryJson(Category category) {
+    private static WritableMap categoryJson(Category category) {
         WritableMap json = Arguments.createMap();
         json.putString("id", category.getId());
         json.putString("name", category.getName());
@@ -155,14 +153,14 @@ final class Utils {
         return json;
     }
 
-    private static ReadableMap categoryIconJson(Photo photo) {
+    private static WritableMap categoryIconJson(Photo photo) {
         WritableMap json = Arguments.createMap();
         json.putString("prefix", photo.getPrefix());
         json.putString("suffix", photo.getSuffix());
         return json;
     }
 
-    private static ReadableArray hierarchyJson(List<Venue.VenueParent> hierarchy) {
+    private static WritableArray hierarchyJson(List<Venue.VenueParent> hierarchy) {
         WritableArray json = Arguments.createArray();
         if (hierarchy != null) {
             for (Venue.VenueParent parent : hierarchy) {
@@ -176,14 +174,12 @@ final class Utils {
         return json;
     }
 
-    private static ReadableMap venueJson(Venue venue) {
+    private static WritableMap venueJson(Venue venue) {
         WritableMap json = Arguments.createMap();
         json.putString("id", venue.getId());
         json.putString("name", venue.getName());
 
-        if (venue.getLocation() != null) {
-            json.putMap("locationInformation", venueLocationJson(venue.getLocation()));
-        }
+        json.putMap("locationInformation", venueLocationJson(venue.getLocation()));
 
         if (venue.getPartnerVenueId() != null) {
             json.putString("partnerVenueId", venue.getPartnerVenueId());
@@ -200,7 +196,7 @@ final class Utils {
         return json;
     }
 
-    private static ReadableMap venueLocationJson(Venue.Location venueLocation) {
+    private static WritableMap venueLocationJson(Venue.Location venueLocation) {
         WritableMap json = Arguments.createMap();
 
         if (venueLocation.getAddress() != null) {
@@ -226,11 +222,11 @@ final class Utils {
         return json;
     }
 
-    private static ReadableMap foursquareLocationJson(FoursquareLocation foursquareLocation) {
+    private static WritableMap foursquareLocationJson(FoursquareLocation foursquareLocation) {
         return locationJson(foursquareLocation.getLat(), foursquareLocation.getLng());
     }
 
-    private static ReadableMap locationJson(double lat, double lng) {
+    private static WritableMap locationJson(double lat, double lng) {
         WritableMap json = Arguments.createMap();
         json.putDouble("latitude", lat);
         json.putDouble("longitude", lng);
