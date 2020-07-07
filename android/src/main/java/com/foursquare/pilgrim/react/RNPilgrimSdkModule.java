@@ -75,6 +75,8 @@ public class RNPilgrimSdkModule extends ReactContextBaseJavaModule {
 
     @ReactMethod
     public void showDebugScreen() {
-        reactContext.startActivity(new Intent(reactContext, PilgrimSdkDebugActivity.class));
+        Intent intent = new Intent(reactContext, PilgrimSdkDebugActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        reactContext.startActivity(intent);
     }
 }
