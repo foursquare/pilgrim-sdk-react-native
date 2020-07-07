@@ -97,48 +97,45 @@ export interface CurrentLocation {
   matchedGeofences: [GeofenceEvent]
 }
 
-export interface PilgrimSdk {
+export default class {
   /**
    * If the current device is supported (no iPads or iPod touches; cellular network required) (iOS only)
    */
-  isSupportedDevice(): Promise<boolean>
+  static isSupportedDevice(): Promise<boolean>
 
   /**
    * If the user is on a supported device and all the required settings ("always" location permission) are on (iOS only)
    */
-  canEnable(): Promise<boolean>
+  static canEnable(): Promise<boolean>
 
   /**
    * Returns a unique identifier that gets generated the first time this sdk runs on a specific device.
    */
-  getInstallId(): Promise<string>
+  static getInstallId(): Promise<string>
 
   /**
    * Call this after configuring the SDK to start the SDK and begin receiving location updates.
    * */
-  start(): void
+  static start(): void
 
   /**
    * Stop receiving location updates, until you call `start` again.
    */
-  stop(): void
+  static stop(): void
 
   /**
    * Gets the current location of the user.
    * This includes possibly a visit and and an array of geofences.
    */
-  getCurrentLocation(): Promise<CurrentLocation>
+  static getCurrentLocation(): Promise<CurrentLocation>
 
   /**
    * Generates a visit and optional nearby venues at the given location.
    */
-  fireTestVisit(latitude: number, longitude: number): void
+  static fireTestVisit(latitude: number, longitude: number): void
 
   /**
    * Initializes a debug mode view controller for viewing PilgrimSDK logs and presents it.
    */
-  showDebugScreen(): void
+  static showDebugScreen(): void
 }
-
-declare let PilgrimSdk: PilgrimSdk
-export default PilgrimSdk
