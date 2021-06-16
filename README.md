@@ -65,7 +65,7 @@ You must call `[[FSQPPilgrimManager sharedManager] configureWithConsumerKey:secr
 {
   [[FSQPPilgrimManager sharedManager] configureWithConsumerKey:@"CONSUMER_KEY"
                                                         secret:@"CONSUMER_SECRET"
-                                                      delegate:nil
+                                                      delegate:self
                                                     completion:nil];
 
   
