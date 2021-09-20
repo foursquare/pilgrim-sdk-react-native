@@ -28,16 +28,6 @@ public class RNPilgrimSdkModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void isSupportedDevice(Promise promise) {
-        promise.resolve(true);
-    }
-
-    @ReactMethod
-    public void canEnable(Promise promise) {
-        promise.resolve(true);
-    }
-
-    @ReactMethod
     public void getInstallId(Promise promise) {
         promise.resolve(PilgrimSdk.getInstallId());
     }
