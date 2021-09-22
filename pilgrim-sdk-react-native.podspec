@@ -16,5 +16,5 @@ Pod::Spec.new do |s|
   s.source_files  = "ios/**/*.{h,m}"
 
   s.dependency 'React'
-  s.dependency 'Pilgrim', '= 2.4.0'
+  s.dependency 'Pilgrim', '= 3.0.1'
 end

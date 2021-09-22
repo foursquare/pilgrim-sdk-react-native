@@ -31,18 +31,6 @@ RCT_EXPORT_MODULE();
     return dispatch_get_main_queue();
 }
 
-RCT_REMAP_METHOD(isSupportedDevice,
-                 isSupportedDeviceWithResolver:(RCTPromiseResolveBlock)resolve
-                 rejecter:(RCTPromiseRejectBlock)reject) {
-    resolve(@([FSQPPilgrimManager sharedManager].isSupportedDevice));
-}
-
-RCT_REMAP_METHOD(canEnable,
-                 canEnableWithResolver:(RCTPromiseResolveBlock)resolve
-                 rejecter:(RCTPromiseRejectBlock)reject) {
-    resolve(@([FSQPPilgrimManager sharedManager].canEnable));
-}
-
 RCT_REMAP_METHOD(getInstallId,
                  getInstallIdWithResolver:(RCTPromiseResolveBlock)resolve
                  rejecter:(RCTPromiseRejectBlock)reject) {
