@@ -50,7 +50,7 @@ RCT_REMAP_METHOD(getCurrentLocation,
                  rejecter:(RCTPromiseRejectBlock)reject) {
     [[FSQPPilgrimManager sharedManager] getCurrentLocationWithCompletion:^(FSQPCurrentLocation * _Nullable currentLocation, NSError * _Nullable error) {
         if (error) {
-            reject(@"get_current_location", @"An error occurred getting your current location", error);
+            reject(@"get_current_location", error.localizedDescription, error);
             return;
         }
         resolve(currentLocation.json);
