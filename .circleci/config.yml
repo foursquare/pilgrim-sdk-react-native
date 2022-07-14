@@ -2,7 +2,7 @@ version: 2.1
 references:
   defaults: &defaults
     docker:
-      - image: circleci/node:12.2
+      - image: circleci/node:17.5.0
   tag_filter: &tag_filter
     filters:
       branches:
