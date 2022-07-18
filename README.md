@@ -1,7 +1,7 @@
-
 # Pilgrim SDK React Native module
 
 [![CircleCI](https://circleci.com/gh/foursquare/pilgrim-sdk-react-native.svg?style=svg)](https://circleci.com/gh/foursquare/pilgrim-sdk-react-native)
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Ffoursquare%2Fpilgrim-sdk-react-native.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Ffoursquare%2Fpilgrim-sdk-react-native?ref=badge_shield)
 
 ## Table of Contents
 * [Installing](#installing)
@@ -284,3 +284,6 @@ export default class Screen extends Component {
 ## FAQ
 
 Consult the Pilgrim documentation [here](https://developer.foursquare.com/docs/pilgrim-sdk/FAQ)
+
+## License
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Ffoursquare%2Fpilgrim-sdk-react-native.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Ffoursquare%2Fpilgrim-sdk-react-native?ref=badge_large)
