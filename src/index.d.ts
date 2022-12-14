@@ -128,6 +128,11 @@ export interface PilgrimSdk {
    * Initializes a debug mode view controller for viewing PilgrimSDK logs and presents it.
    */
   showDebugScreen(): void
+
+  /**
+   * Is Pilgrim currently enabled.
+   */
+  isEnabled(): Promise<boolean>
 }
 
 declare let PilgrimSdk: PilgrimSdk

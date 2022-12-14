@@ -6,21 +6,20 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:4.0.2'
+        classpath 'com.android.tools.build:gradle:7.2.2'
     }
 }
 
 apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion 31
-    buildToolsVersion "29.0.2"
+    compileSdkVersion 33
 
     defaultConfig {
         minSdkVersion 16
-        targetSdkVersion 29
+        targetSdkVersion 33
         versionCode 1
-        versionName "1.0.12"
+        versionName "1.2.0"
     }
     lintOptions {
         abortOnError false
@@ -37,6 +36,7 @@ repositories {
 
 dependencies {
     implementation 'com.facebook.react:react-native:+'
-    implementation 'com.foursquare:pilgrimsdk:3.1.0'
-    implementation 'com.foursquare:pilgrimsdk-debugging:3.1.0'
+    implementation 'com.foursquare:pilgrimsdk:3.3.0'
+    implementation 'com.foursquare:pilgrimsdk-debugging:3.3.0'
+    implementation 'androidx.legacy:legacy-support-core-utils:1.0.0'
 }

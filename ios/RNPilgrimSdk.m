@@ -71,4 +71,10 @@ RCT_EXPORT_METHOD(showDebugScreen) {
     [[FSQPPilgrimManager sharedManager] presentDebugViewController:viewController];
 }
 
+RCT_REMAP_METHOD(isEnabled,
+                 isEnabledWithResolver:(RCTPromiseResolveBlock)resolve
+                 rejecter:(RCTPromiseRejectBlock)reject) {
+    resolve(@([[FSQPPilgrimManager sharedManager] isEnabled]));
+}
+
 @end
