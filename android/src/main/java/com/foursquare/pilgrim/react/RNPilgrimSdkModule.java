@@ -69,4 +69,9 @@ public class RNPilgrimSdkModule extends ReactContextBaseJavaModule {
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         reactContext.startActivity(intent);
     }
+
+    @ReactMethod
+    public void isEnabled(final Promise promise) {
+        promise.resolve(PilgrimSdk.isEnabled());
+    }
 }
