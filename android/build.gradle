@@ -36,7 +36,7 @@ repositories {
 
 dependencies {
     implementation 'com.facebook.react:react-native:+'
-    implementation 'com.foursquare:pilgrimsdk:3.3.0'
-    implementation 'com.foursquare:pilgrimsdk-debugging:3.3.0'
+    implementation 'com.foursquare:pilgrimsdk:3.4.0'
+    implementation 'com.foursquare:pilgrimsdk-debugging:3.4.0'
     implementation 'androidx.legacy:legacy-support-core-utils:1.0.0'
 }
