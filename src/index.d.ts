@@ -133,6 +133,16 @@ export interface PilgrimSdk {
    * Is Pilgrim currently enabled.
    */
   isEnabled(): Promise<boolean>
+
+  /**
+  * Generates a visit and optional nearby venues at the given location.
+  */
+  setUserInfoCustomValue(value: string, key: string, persisted: boolean): Promise<string>
+
+  /**
+  * Generates a visit and optional nearby venues at the given location.
+  */
+  getUserInfoCustomValueWithKey(key: string): Promise<string>
 }
 
 declare let PilgrimSdk: PilgrimSdk

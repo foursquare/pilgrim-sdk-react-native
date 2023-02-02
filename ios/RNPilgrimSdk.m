@@ -77,4 +77,62 @@ RCT_REMAP_METHOD(isEnabled,
     resolve(@([[FSQPPilgrimManager sharedManager] isEnabled]));
 }
 
+RCT_EXPORT_METHOD(setUserInfoCustomValue:(NSString *)value
+                  forKey:(NSString *)key
+                  persisted:(BOOL)persisted
+                  resolver:(RCTPromiseResolveBlock)resolve
+                  rejecter:(RCTPromiseRejectBlock)reject) {
+    FSQPUserInfo *userInfo = [FSQPPilgrimManager sharedManager].userInfo;
+    if (!userInfo) {
+        userInfo = [[FSQPUserInfo alloc] init];
+    }
+    NSString *valueInUserInfo = userInfo.source[key];
+    if (!valueInUserInfo || ![valueInUserInfo isEqualToString:value]) {
+        [userInfo setUserInfo:value forKey:key];
+        [[FSQPPilgrimManager sharedManager] setUserInfo:userInfo persisted:persisted];
+        // retrieve and check if successfully set
+        userInfo = [FSQPPilgrimManager sharedManager].userInfo;
+        valueInUserInfo = userInfo.source[key];
+        if (!valueInUserInfo) {
+            valueInUserInfo = @"";
+        }
+    }
+    if (!valueInUserInfo || ![valueInUserInfo isEqualToString:value]) {
+        NSError *error = [[NSError alloc] initWithDomain:NSItemProviderErrorDomain code:-1 userInfo:@{
+            @"message": @"setUserInfoCustomValue() failed.",
+            @"value": value,
+            @"key": key,
+        }];
+        reject(@"setUserInfoCustomValue", @"failure", error);
+    } else {
+        resolve(valueInUserInfo);
+    }
+}
+
+RCT_EXPORT_METHOD(getUserInfoCustomValueWithKey:(NSString *)key
+                  resolver:(RCTPromiseResolveBlock)resolve
+                  rejecter:(RCTPromiseRejectBlock)reject) {
+    FSQPUserInfo *userInfo = [FSQPPilgrimManager sharedManager].userInfo;
+    if (!userInfo) {
+        NSError *error = [[NSError alloc] initWithDomain:NSItemProviderErrorDomain code:-1 userInfo:@{
+            @"message": @"getUserInfoCustomValueWithKey() failed.",
+            @"reason": @"userInfo does not exist.",
+            @"key": key,
+        }];
+        reject(@"getUserInfoCustomValueWithKey", @"failure", error);
+        return;
+    }
+    NSString *value = userInfo.source[key];
+    if (!value) {
+        NSError *error = [[NSError alloc] initWithDomain:NSItemProviderErrorDomain code:-1 userInfo:@{
+            @"message": @"getUserInfoCustomValueWithKey() failed.",
+            @"reason": @"Entry does not exist.",
+            @"key": key,
+        }];
+        reject(@"getUserInfoCustomValueWithKey", @"failure", error);
+        return;
+    }
+    resolve(value);
+}
+
 @end

@@ -10,6 +10,7 @@ import com.facebook.react.bridge.ReactMethod;
 import com.foursquare.pilgrim.CurrentLocation;
 import com.foursquare.pilgrim.PilgrimNotificationTester;
 import com.foursquare.pilgrim.PilgrimSdk;
+import com.foursquare.pilgrim.PilgrimUserInfo;
 import com.foursquare.pilgrim.Result;
 import com.foursquare.pilgrimsdk.debugging.PilgrimSdkDebugActivity;
 
@@ -73,5 +74,44 @@ public class RNPilgrimSdkModule extends ReactContextBaseJavaModule {
     @ReactMethod
     public void isEnabled(final Promise promise) {
         promise.resolve(PilgrimSdk.isEnabled());
+    }
+
+    @ReactMethod
+    public void setUserInfoCustomValue(String value, String key, boolean persisted, final Promise promise) {
+        PilgrimUserInfo pilgrimUserInfo = PilgrimSdk.get().getUserInfo();
+        if (pilgrimUserInfo == null) {
+            pilgrimUserInfo = new PilgrimUserInfo();
+        }
+        String valueInUserInfo = pilgrimUserInfo.get(key);
+        if (valueInUserInfo == null || !valueInUserInfo.equals(value)) {
+            pilgrimUserInfo.put(key, value);
+            PilgrimSdk.get().setUserInfo(pilgrimUserInfo, persisted);
+            // retrieve and check
+            pilgrimUserInfo = PilgrimSdk.get().getUserInfo();
+            valueInUserInfo = pilgrimUserInfo.get(key);
+        }
+        if (valueInUserInfo == null || !valueInUserInfo.equals(value)) {
+            Error error = new Error("setUserInfoCustomValue() failed");
+            promise.reject("setUserInfoCustomValue", error);
+        } else {
+            promise.resolve(valueInUserInfo);
+        }
+    }
+
+    @ReactMethod
+    public void getUserInfoCustomValueWithKey(String key, final Promise promise) {
+        PilgrimUserInfo pilgrimUserInfo = PilgrimSdk.get().getUserInfo();
+        if (pilgrimUserInfo == null) {
+            Error error = new Error("getUserInfoCustomValue() failed. userInfo does not exist.");
+            promise.reject("getUserInfoCustomValue", error);
+            return;
+        }
+        String value = pilgrimUserInfo.get(key);
+        if (value == null) {
+            Error error = new Error("getUserInfoCustomValue() failed. Entry does not exist.");
+            promise.reject("getUserInfoCustomValue", error);
+            return;
+        }
+        promise.resolve(value);
     }
 }
